@@ -47,7 +47,8 @@ plt.show()*/
 ## Output:
 
 <img width="816" height="542" alt="Screenshot 2026-01-28 205507" src="https://github.com/user-attachments/assets/a31f35ca-12bd-4ab9-81d5-e1cc5b8fa5d4" />
-![WhatsApp Image 2026-01-27 at 9 45 11 AM](https://github.com/user-attachments/assets/a146a211-f406-4d26-8923-8359f02dccc0)
+<img width="789" height="526" alt="Screenshot 2026-01-28 205453" src="https://github.com/user-attachments/assets/1688a64b-b10d-4868-9b83-5cfca0f1e654" />
+
 
 
 ## Result:
