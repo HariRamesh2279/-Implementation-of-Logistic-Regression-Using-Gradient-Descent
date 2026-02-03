@@ -20,34 +20,54 @@ Program to implement the the Logistic Regression Using Gradient Descent.
 Developed by: HARI RAMESH
 RegisterNumber:  25009620
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression
-X = np.array([[30], [35], [40], [45], [50], [55], [60], [65]])
-y = np.array([0, 0, 0, 0, 1, 1, 1, 1])   # 0 = Fail, 1 = Pass
+from sklearn.preprocessing import StandardScaler
+data = pd.read_csv("Placement_Data.csv")
+data['status'] = data['status'].map({'Placed': 1, 'Not Placed': 0})
 
-model = LogisticRegression()
-model.fit(X, y)
+X = data[['ssc_p', 'mba_p']].values
+y = data['status'].values
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+m = len(y)
+X = np.c_[np.ones(m), X]
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
 
-marks = [[48]]
-result = model.predict(marks)
-print("Prediction (0=Fail, 1=Pass):", result)
+def cost_function(X, y, theta):
+    h = sigmoid(X @ theta)
+    return (-1/m) * np.sum(y*np.log(h) + (1-y)*np.log(1-h))
+theta = np.zeros(X.shape[1])
+alpha = 0.1
+cost_history = []
 
-plt.scatter(X, y, color='red', label='Actual Data')
+for i in range(500):
+    z = X @ theta
+    h = sigmoid(z)
+    gradient = (1/m) * X.T @ (h - y)
+    theta = theta - alpha * gradient
+    
+    cost = cost_function(X, y, theta)
+    cost_history.append(cost)
 
-X_test = np.linspace(25, 70, 100).reshape(-1, 1)
-plt.plot(X_test, model.predict_proba(X_test)[:,1], label='Prediction Curve')
+y_pred = (sigmoid(X @ theta) >= 0.5).astype(int)
 
-plt.xlabel("Marks")
-plt.ylabel("Probability of Pass")
-plt.title("Logistic Regression: Pass / Fail Prediction")
-plt.legend()
-plt.show()*/
+accuracy = np.mean(y_pred == y) * 100
+print("Weights:", theta)
+print("Accuracy:", accuracy, "%")
+
+plt.figure()
+plt.plot(cost_history)
+plt.xlabel("Iterations")
+plt.ylabel("Cost")
+plt.title("Logistic Regression using Gradient Descent")
+plt.show()
 ```
 
 ## Output:
 
 <img width="816" height="542" alt="Screenshot 2026-01-28 205507" src="https://github.com/user-attachments/assets/a31f35ca-12bd-4ab9-81d5-e1cc5b8fa5d4" />
-<img width="789" height="526" alt="Screenshot 2026-01-28 205453" src="https://github.com/user-attachments/assets/1688a64b-b10d-4868-9b83-5cfca0f1e654" />
 
 
 
